@@ -21,5 +21,7 @@ spring:
     init:
       mode: embedded
 
-climbing:
-  jwt-key: "rTPmA9Sgk+Q1XwuJbG7E6xFFUhQpdi+al5iyPnRTK/Q="
+jwt:
+  secret: "rTPmA9Sgk+Q1XwuJbG7E6xFFUhQpdi+al5iyPnRTK/Q="
+  accessExpirationMs: 3600000    # 1 hour
+  refreshExpirationMs: 86400000   # 1 day
