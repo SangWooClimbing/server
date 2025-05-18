@@ -4,11 +4,13 @@ import com.ulsan.climbing.api.exception.UnValidTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Slf4j
 @Component
 public class JwtUtils {
     @Value("${spring.jwt.secret}")
@@ -20,7 +22,7 @@ public class JwtUtils {
 
     public String generateAccessToken(Long userId) {
         return Jwts.builder()
-                .claim("type", "refresh")
+                .claim("type", "ACCESS")
                 .claim("userId", userId)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + accessExpirationMs))
@@ -30,7 +32,7 @@ public class JwtUtils {
 
     public String generateRefreshToken(Long userId) {
         return Jwts.builder()
-                .claim("type", "refresh")
+                .claim("type", "REFRESH")
                 .claim("userId", userId)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + refreshExpirationMs))

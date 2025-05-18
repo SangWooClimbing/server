@@ -1,6 +1,7 @@
 package com.ulsan.climbing.api.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ulsan.climbing.api.config.filter.JwtTokenFilter;
 import com.ulsan.climbing.api.domain.User;
 import com.ulsan.climbing.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -31,6 +33,7 @@ public class SecurityConfig {
 
     private final ObjectMapper objectMapper;
     private final UserRepository userRepository;
+    private final JwtTokenFilter jwtTokenFilter;
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -47,12 +50,13 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 // 세션 없이 JWT 기반 stateless
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .httpBasic(basic -> basic.disable())
-//                .formLogin(form -> form.disable())
+                .httpBasic(basic -> basic.disable())
+                .formLogin(form -> form.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()  // 🔥 회원가입, 로그인은 인증 없이 허용
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(withDefaults());
 
         return http.build();

@@ -1,7 +1,9 @@
 package com.ulsan.climbing.api.dto.response;
 
 import com.ulsan.climbing.api.domain.User;
+import lombok.Getter;
 
+@Getter
 public class UserResponse {
     private Long id;
     private String email;

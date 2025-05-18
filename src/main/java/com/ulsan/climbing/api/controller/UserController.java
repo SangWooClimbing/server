@@ -21,12 +21,11 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping()
-    public ResponseEntity<UserResponse> getMe(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        if (userPrincipal == null) {
+    public ResponseEntity<UserResponse> getMe(@AuthenticationPrincipal Long userId) {
+        if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        UserResponse userResponse = userService.getUserProfile(userPrincipal.getUserId());
-        return ResponseEntity.ok().body(userResponse);
+        return ResponseEntity.ok().body(userService.getUserProfile(userId));
     }
 }
