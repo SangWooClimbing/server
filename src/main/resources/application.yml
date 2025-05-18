@@ -11,17 +11,29 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     defer-datasource-initialization: true
+  logging:
+    level:
+      org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: DEBUG
   data:
     web:
       pageable:
         max-page-size: 2000
         default-page-size: 20
         one-indexed-parameters: true
+    redis:
+      host: 127.0.0.1
+      port: 6379
   sql:
     init:
       mode: embedded
 
-jwt:
-  secret: "rTPmA9Sgk+Q1XwuJbG7E6xFFUhQpdi+al5iyPnRTK/Q="
-  accessExpirationMs: 3600000    # 1 hour
-  refreshExpirationMs: 86400000   # 1 day
+  jwt:
+    secret: "yourasuperbsecurecrandomdsecretekeyfthatgishlongienoughjtokbelsafe13212345678901234567890"
+    accessExpirationMs: 3600000    # 1 hour
+    refreshExpirationMs: 86400000   # 1 day
+
+
+logging:
+  level:
+    root: info
+    com.ulsan.climbing: debug

@@ -11,11 +11,11 @@ import java.util.Date;
 
 @Component
 public class JwtUtils {
-    @Value("${jwt.secret}")
+    @Value("${spring.jwt.secret}")
     private String secret;
-    @Value("${jwt.accessExpirationMs}")
+    @Value("${spring.jwt.accessExpirationMs}")
     private int accessExpirationMs;
-    @Value("${jwt.refreshExpirationMs}")
+    @Value("${spring.jwt.refreshExpirationMs}")
     private int refreshExpirationMs;
 
     public String generateAccessToken(Long userId) {

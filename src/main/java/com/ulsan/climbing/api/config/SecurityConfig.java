@@ -1,8 +1,6 @@
 package com.ulsan.climbing.api.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ulsan.climbing.api.config.handler.HttpForbiddenHandler;
-import com.ulsan.climbing.api.config.handler.HttpUnauthorizedHandler;
 import com.ulsan.climbing.api.domain.User;
 import com.ulsan.climbing.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,19 +13,19 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Slf4j
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity()
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -40,6 +38,24 @@ public class SecurityConfig {
                 .requestMatchers("/favicon.ico")
                 .requestMatchers("/error")
                 .requestMatchers(toH2Console());
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                // POST 계열을 테스트할 땐 CSRF 꺼야 403이 안 뜹니다
+                .csrf(csrf -> csrf.disable())
+                // 세션 없이 JWT 기반 stateless
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .httpBasic(basic -> basic.disable())
+//                .formLogin(form -> form.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**").permitAll()  // 🔥 회원가입, 로그인은 인증 없이 허용
+                        .anyRequest().authenticated()
+                )
+                .httpBasic(withDefaults());
+
+        return http.build();
     }
 
 //    @Bean

@@ -21,11 +21,8 @@ public class User extends DateEntity{
     @Column(length = 50, nullable = false)
     private String email;
 
-    @Column(length = 50,nullable = false)
+    @Column(nullable = false)
     private String password;
-
-    @Column(length = 50,nullable = false)
-    private String salt;
 
     @Column(length = 10,nullable = false)
     private String name;
@@ -37,10 +34,9 @@ public class User extends DateEntity{
     private String providerId;
 
     @Builder
-    public User(String email, String password, String salt, String name, String provider, String providerId) {
+    public User(String email, String password, String name, String provider, String providerId) {
         this.email = email;
         this.password = password;
-        this.salt = salt;
         this.name = name;
         this.provider = provider;
         this.providerId = providerId;
