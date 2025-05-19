@@ -18,6 +18,6 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotFound::new);
 
-        return new UserResponse(user);
+        return UserResponse.of(user);
     }
 }
