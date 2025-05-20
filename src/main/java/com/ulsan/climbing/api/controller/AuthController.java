@@ -1,10 +1,9 @@
 package com.ulsan.climbing.api.controller;
 
-import com.ulsan.climbing.api.dto.request.Login;
-import com.ulsan.climbing.api.dto.request.Refresh;
-import com.ulsan.climbing.api.dto.request.Signup;
+import com.ulsan.climbing.api.dto.request.*;
 import com.ulsan.climbing.api.dto.response.TokenResponse;
 import com.ulsan.climbing.api.service.AuthService;
+import com.ulsan.climbing.api.service.OauthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthController {
     private final AuthService authService;
+    private final OauthService oauthService;
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody Signup signup) {
@@ -37,5 +37,12 @@ public class AuthController {
     @PostMapping("/refresh")
     public ResponseEntity<TokenResponse> login(@RequestBody Refresh refresh) {
         return ResponseEntity.ok().body(authService.refresh(refresh));
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<?> loginWithGoogle(@RequestBody OauthTokenRequest request) {
+        OauthInfoRequest oauthUsr
+                = oauthService.getGoogleUser(request.getAccessToken());
+        return ResponseEntity.ok().body(authService.oauthLogin(oauthUsr, "google"));
     }
 }

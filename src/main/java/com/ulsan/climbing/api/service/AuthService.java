@@ -3,6 +3,7 @@ package com.ulsan.climbing.api.service;
 import com.ulsan.climbing.api.config.JwtUtils;
 import com.ulsan.climbing.api.domain.User;
 import com.ulsan.climbing.api.dto.request.Login;
+import com.ulsan.climbing.api.dto.request.OauthInfoRequest;
 import com.ulsan.climbing.api.dto.request.Refresh;
 import com.ulsan.climbing.api.dto.request.Signup;
 import com.ulsan.climbing.api.dto.response.TokenResponse;
@@ -60,6 +61,24 @@ public class AuthService {
         tokenRepository.setRefreshToken(refreshToken, user.getId().toString());
 
         log.info("Refresh token: {}", refreshToken);
+
+        return new TokenResponse(accessToken, refreshToken);
+    }
+
+    public TokenResponse oauthLogin(OauthInfoRequest request, String provider) {
+        User user = userRepository.findByEmail(request.getEmail()).orElse(
+                User.builder()
+                        .email(request.getEmail())
+                        .name(request.getName())
+                        .provider(provider)
+                        .build()
+        );
+        log.info("Refresh token: {}", user);
+        userRepository.save(user);
+
+        String accessToken = jwtUtils.generateAccessToken(user.getId());
+        String refreshToken = jwtUtils.generateRefreshToken(user.getId());
+        tokenRepository.setRefreshToken(refreshToken, user.getId().toString());
 
         return new TokenResponse(accessToken, refreshToken);
     }
