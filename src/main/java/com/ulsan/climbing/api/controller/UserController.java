@@ -1,7 +1,10 @@
 package com.ulsan.climbing.api.controller;
 
+import com.ulsan.climbing.api.common.ApiResponse;
 import com.ulsan.climbing.api.config.UserPrincipal;
 import com.ulsan.climbing.api.dto.response.UserResponse;
+import com.ulsan.climbing.api.exception.UnAuthorizedException;
+import com.ulsan.climbing.api.exception.UserNotFound;
 import com.ulsan.climbing.api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +24,11 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping()
-    public ResponseEntity<UserResponse> getMe(@AuthenticationPrincipal Long userId) {
+    public ApiResponse<UserResponse> getMe(@AuthenticationPrincipal Long userId) {
         if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            throw new UnAuthorizedException();
         }
 
-        return ResponseEntity.ok().body(userService.getUserProfile(userId));
+        return ApiResponse.ok(userService.getUserProfile(userId));
     }
 }

@@ -2,20 +2,15 @@ package com.ulsan.climbing.api.exception;
 
 import lombok.Getter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Getter
 public abstract class CustomException extends RuntimeException {
-    public final Map<String, String> validation = new HashMap<>();
+    String errorCode;
 
-    public CustomException(String message) {
+    public CustomException(String message, String errorCode) {
         super(message);
+        this.errorCode = errorCode;
     }
 
     public abstract int getStatusCode();
 
-    public void addValidation(String fieldName, String message) {
-        validation.put(fieldName, message);
-    }
 }

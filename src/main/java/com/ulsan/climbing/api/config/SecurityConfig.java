@@ -31,8 +31,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity()
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-    private final ObjectMapper objectMapper;
     private final UserRepository userRepository;
     private final JwtTokenFilter jwtTokenFilter;
 
@@ -62,26 +60,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests()
-//                .anyRequest().permitAll()
-//                .and()
-//                .addFilterBefore(usernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-//                .exceptionHandling(e -> {
-//                    e.accessDeniedHandler(new HttpForbiddenHandler(objectMapper));
-//                    e.authenticationEntryPoint(new HttpUnauthorizedHandler(objectMapper));
-//                })
-//                .rememberMe(rm -> rm.rememberMeParameter("remember")
-//                        .alwaysRemember(false)
-//                        .tokenValiditySeconds(2592000)
-//                )
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .build();
-//    }
 
     @Bean
     public AuthenticationManager authenticationManager() {
