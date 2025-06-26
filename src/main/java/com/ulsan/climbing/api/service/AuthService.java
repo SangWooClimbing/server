@@ -42,19 +42,17 @@ public class AuthService {
         var user = User.builder()
                 .email(signup.getEmail())
                 .password(encryptedPassword)
-                .name(signup.getName())
+                .name(signup.getUsername())
                 .build();
         userRepository.save(user);
     }
 
     public TokenResponse login(Login login) {
         Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword())
-        );
+                new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
 
         User user = userRepository.findByEmail(login.getEmail()).orElseThrow(
-                UserNotFound::new
-        );
+                UserNotFound::new);
 
         String accessToken = jwtUtils.generateAccessToken(user.getId());
         String refreshToken = jwtUtils.generateRefreshToken(user.getId());
@@ -71,8 +69,7 @@ public class AuthService {
                         .email(request.getEmail())
                         .name(request.getName())
                         .provider(provider)
-                        .build()
-        );
+                        .build());
         log.info("Refresh token: {}", user);
         userRepository.save(user);
 
@@ -88,8 +85,7 @@ public class AuthService {
 
         Long userId = jwtUtils.getUserIdFromJwt(req.getRefreshToken());
         User user = userRepository.findById(userId).orElseThrow(
-                UserNotFound::new
-        );
+                UserNotFound::new);
         tokenRepository.getUserIdBy(req.getRefreshToken());
 
         String accessToken = jwtUtils.generateAccessToken(user.getId());

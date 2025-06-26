@@ -32,9 +32,20 @@ spring:
 
   jwt:
     secret: "yourasuperbsecurecrandomdsecretekeyfthatgishlongienoughjtokbelsafe13212345678901234567890"
-    accessExpirationMs: 3600000    # 1 hour
-    refreshExpirationMs: 86400000   # 1 day
+    accessExpirationMs: 3600000 # 1 hour
+    refreshExpirationMs: 86400000 # 1 day
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: your_google_client_id_here
+            client-secret: your_google_client_secret_here
+            redirect-uri: "{baseUrl}/login/oauth2/code/google"
+            scope:
+              - profile
+              - email
 
 logging:
   level:
