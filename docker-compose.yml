@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+      - SPRING_DATA_REDIS_HOST=redis
+      - JWT_SECRET=yourasuperbsecurecrandomdsecretekeyfthatgishlongienoughjtokbelsafe13212345678901234567890
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
