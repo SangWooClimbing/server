@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+      - db
+    environment:
+      - SPRING_PROFILES_ACTIVE=
+      - REDIS_URL=
+      - REDIS_PORT=
+      - SECRET_KEY=
+      - ACCESS_TTL=
+      - REFRESH_TTL=
+      - DB_URL=jdbc:postgresql://db:5432/climbing_db
+      - DB_USER=
+      - DB_PASS=
+      - OAUTH_GOOGLE_CLIENT_ID=
+      - OAUTH_GOOGLE_SECRET=
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+  db:
+    image: "postgres:17.5"
+    environment:
+      POSTGRES_DB:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
+    ports:
+      - "5432:5432"
+
+
+

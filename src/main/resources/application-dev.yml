@@ -1,0 +1,48 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+  logging:
+    level:
+      org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: DEBUG
+  data:
+    web:
+      pageable:
+        max-page-size: 2000
+        default-page-size: 20
+        one-indexed-parameters: true
+    redis:
+      host: ${REDIS_URL}
+      port: ${REDIS_PORT}
+  sql:
+    init:
+      mode: embedded
+
+  jwt:
+    secret: ${SECRET_KEY}
+    accessExpirationMs: ${ACCESS_TTL}    # 1 hour
+    refreshExpirationMs: ${REFRESH_TTL}   # 1 day
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${OAUTH_GOOGLE_CLIENT_ID}
+            client-secret: ${OAUTH_GOOGLE_CLIENT_ID}
+            scope: email, profile
+
+
+logging:
+  level:
+    root: info
+    com.ulsan.climbing: info
