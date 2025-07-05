@@ -1,7 +1,7 @@
 package com.ulsan.climbing.api.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ulsan.climbing.api.dto.request.OauthInfoRequest;
+import com.ulsan.climbing.api.domain.request.auth.OauthInfoRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;

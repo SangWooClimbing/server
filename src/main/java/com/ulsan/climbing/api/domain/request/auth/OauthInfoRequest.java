@@ -1,4 +1,4 @@
-package com.ulsan.climbing.api.dto.request;
+package com.ulsan.climbing.api.domain.request.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

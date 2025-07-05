@@ -1,6 +1,5 @@
 package com.ulsan.climbing.api.domain;
 
-import com.ulsan.climbing.api.dto.request.Signup;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -13,11 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Entity
 @Table(name = "user")
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-public class User extends DateEntity{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class User extends BaseEntity {
     @Column(length = 50, nullable = false)
     private String email;
 

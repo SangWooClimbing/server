@@ -2,10 +2,10 @@ package com.ulsan.climbing.api.service;
 
 import com.ulsan.climbing.api.config.JwtUtils;
 import com.ulsan.climbing.api.domain.User;
-import com.ulsan.climbing.api.dto.request.Login;
-import com.ulsan.climbing.api.dto.request.OauthInfoRequest;
-import com.ulsan.climbing.api.dto.request.Refresh;
-import com.ulsan.climbing.api.dto.request.Signup;
+import com.ulsan.climbing.api.domain.request.auth.Login;
+import com.ulsan.climbing.api.domain.request.auth.OauthInfoRequest;
+import com.ulsan.climbing.api.domain.request.auth.Refresh;
+import com.ulsan.climbing.api.domain.request.auth.Signup;
 import com.ulsan.climbing.api.dto.response.TokenResponse;
 import com.ulsan.climbing.api.exception.AlreadyExistsEmailException;
 import com.ulsan.climbing.api.exception.UserNotFound;
